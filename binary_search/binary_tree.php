@@ -4,9 +4,9 @@
  */
 class BinaryNode { 
 
-    public $data; 
-    public $left; 
-    public $right; 
+    private $data; 
+    private $left; 
+    private $right; 
 
     public function __construct(string $data = NULL) { 
       $this->data = $data; 
@@ -151,14 +151,7 @@ class BinaryTree {
 
     }
 
-    // public function traverse(int $num = 0, int $level = 0) { 
+    public function size() {
 
-    //   if (isset($this->nodes[$num])) { 
-    //       echo str_repeat("-", $level); 
-    //       echo $this->nodes[$num] . "\n"; 
-
-    //       $this->traverse(2 * $num + 1, $level+1); 
-    //       $this->traverse(2 * ($num + 1), $level+1); 
-    //   } 
-    // }
+    }
 }
