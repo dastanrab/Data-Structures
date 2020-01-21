@@ -4,9 +4,9 @@
  */
 class BinaryNode { 
 
-    private $data; 
-    private $left; 
-    private $right; 
+    public $data; 
+    public $left; 
+    public $right; 
 
     public function __construct(string $data = NULL) { 
       $this->data = $data; 
@@ -63,24 +63,26 @@ class BinaryTree {
         while($added === false) {
             if ($node->data < $current->data) {
                 if($current->left === null) {
-                $current->addChildren($node, $current->right);
-                $added = true;
+                    $current->addChildren($node, $current->right);
+                    $added = $node;
+                    break;
                 } else {
                     $current = $current->left;
-                    $this->insertNode($node, $current);
+                    return $this->insertNode($node, $current);
                 }
                 
             }
             elseif ($node->data > $current->data) {
                 if($current->right === null) {
                     $current->addChildren($current->left, $node);
-                    $added = true;
-                    } else {
-                        $current = $current->right;
-                        $this->insertNode($node, $current);
+                    $added = $node;
+                    break;
+                } else {
+                    $current = $current->right;
+                    return $this->insertNode($node, $current);
                     }
             } else {
-            break;
+                break;
             }
         }
         return $added;   
@@ -93,10 +95,10 @@ class BinaryTree {
         if ($this->isEmpty()) { // this is the root node
             return false;
         }
-            $current = $this->root;
             if ($node->data === $this->root->data) {             
-              return true;
+              return $this->root;
             } else {
+              $current = $this->root;
               return $this->retrieveNode($node, $current);        
             }
     }
@@ -117,7 +119,7 @@ class BinaryTree {
                 }
                  else {
                     $current = $current->left;
-                    $this->retrieveNode($node, $current);
+                    return $this->retrieveNode($node, $current);
                 }
                 
             }
@@ -125,12 +127,12 @@ class BinaryTree {
               if ($current->right === null) {
                 break;
               }
-                elseif($node->data == $current->right->data) {
-                  $exists = $current->right;
-                  break;
-                } else {
-                    $current = $current->right;
-                    $this->retrieveNode($node, $current);
+              elseif($node->data == $current->right->data) {
+                $exists = $current->right;
+                break;
+              } else {
+                $current = $current->right;
+                return $this->retrieveNode($node, $current);
                 }
             }
         }
