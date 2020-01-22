@@ -146,12 +146,83 @@ class BinaryTree {
 
     }
 
-    /**
-     * Method to remove an element from the binary tree
-     */
-    public function removeElement($elem) {
+    private function findParent($child, $current) {
+        $parent = false;
+        while ($parent === false) {
+          if ($child->data < $current->data) {
+            if ($child->data === $current->left->data) {
+              $parent = $current;
+              break;
+            } else {
+              return $this->findParent($child, $current->left);
+              break;
+            }
+          }
+          elseif ($child->data > $current->data) {
+            if ($child->data === $current->right->data) {
+              $parent = $current;
+              break;
+            } else {
+              return $this->findParent($child, $current->right);
+              break;
+            }
+          } else {
+            break;
+          }
+        }
+        return $parent;
+      }
+  
+      
+  
+      /**
+       * Method to remove an element from the binary tree
+       */
+      public function removeElement($elem) {
+          if ($this->isEmpty()) {
+              return false;
+          }
 
-    }
+          $node = $this->retrieve($elem);
+          
+          if (!$node) {
+            return false;
+          }
+  
+          //Case one remove the root
+          if ($elem->data === $this->root->data) {
+            // find the largest value in the left sub tree
+            $current = $this->root->left;
+            while($current->right != null) {
+                $current = $current->right;
+                continue;
+            }
+            // set this node to be the root
+            $current->left = $this->root->left;
+            $current->right = $this->root->right;
+
+            $parent = $this->findParent($current, $this->root);
+            $parent->right = $current->left;
+
+            $this->root = $current;
+            return true;
+          }
+
+          // case two we are removing a leaf node
+          if ($node->left === null and $node->right === null) {
+            $parent = $this->findParent($node, $this->root);
+            if ($parent->left->data && $node->data === $parent->left->data) {
+              $parent->left = null;
+              return true;
+            }
+            elseif ($parent->right->data && $node->data === $parent->right->data) {
+              $parent->right = null;
+              return true;
+  
+            }
+            return $parent;
+          }
+      }
 
     public function size() {
 
